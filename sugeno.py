@@ -17,7 +17,6 @@ def evaluate_kinerja():
     evaluasi_kinerja.input['kedisiplinan'] = kedisiplinan_value
     evaluasi_kinerja.input['kerjasama'] = kerjasama_value
 
-
     # Fuzzy Inference (dengan metode Sugeno)
     evaluasi_kinerja.compute()
 
