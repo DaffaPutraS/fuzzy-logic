@@ -17,7 +17,7 @@ def evaluate_kinerja():
     evaluasi_kinerja.input['kedisiplinan'] = kedisiplinan_value
     evaluasi_kinerja.input['kerjasama'] = kerjasama_value
 
-    # Fuzzy Inference (dengan metode Sugeno)
+    # Fuzzy Inference
     evaluasi_kinerja.compute()
 
     # Mendapatkan hasil evaluasi kinerja
@@ -38,17 +38,17 @@ def evaluate_kinerja():
 root = tk.Tk()
 root.title("Evaluasi Kinerja Pegawai")
 
-# Create a style
+# Style GUI
 style = ttk.Style()
 
-# Configure the background color for the frame
+# Background Frame
 style.configure("TFrame", background="#97cdfc")
 
 # Membuat frame utama
 main_frame = ttk.Frame(root, style="TFrame", padding=(30, 20))
 main_frame.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
 
-# Membuat entry widgets dan label untuk setiap variabel input
+# Membuat input dan label untuk setiap variabel input
 orientasi_label = ttk.Label(main_frame, text="Orientasi Pelayanan:", font=('Arial', 13),background="#97cdfc")
 orientasi_label.grid(row=0, column=0, pady=10, sticky=tk.W) 
 orientasi_entry = ttk.Entry(main_frame)
@@ -106,15 +106,15 @@ kerjasama['tidak_bisa'] = fuzz.trimf(kerjasama.universe, [0, 0, 50])
 kerjasama['bisa'] = fuzz.trimf(kerjasama.universe, [0, 50, 100])
 
 kompeten['kompeten'] = fuzz.trimf(kompeten.universe, [70, 80, 100])
-kompeten['cukup'] = fuzz.trimf(kompeten.universe, [56, 70, 70])
+kompeten['cukup'] = fuzz.trimf(kompeten.universe, [63, 70, 70])
 kompeten['tidak_kompeten'] = fuzz.trimf(kompeten.universe, [0, 0, 50])
 
-# Rules (dengan metode Sugeno)
+# Rules 
 rule1 = ctrl.Rule(orientasi_pelayanan['sangat_baik'] & integritas['sangat_baik'] & kedisiplinan['sangat_disiplin'] & kerjasama['bisa'], kompeten['kompeten'])
 rule2 = ctrl.Rule(orientasi_pelayanan['baik'] & integritas['baik'] & kedisiplinan['disiplin'] & kerjasama['bisa'], kompeten['cukup']) 
 rule3 = ctrl.Rule(orientasi_pelayanan['tidak_baik'] | integritas['tidak_baik'] | kedisiplinan['tidak_disiplin'] | kerjasama['tidak_bisa'], kompeten['tidak_kompeten'])
 
-# Rule System (dengan metode Sugeno)
+# Rule System 
 evaluasi_kinerja_ctrl = ctrl.ControlSystem([rule1, rule2, rule3])
 evaluasi_kinerja = ctrl.ControlSystemSimulation(evaluasi_kinerja_ctrl)
 
